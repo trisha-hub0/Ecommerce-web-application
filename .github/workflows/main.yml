@@ -26,4 +26,4 @@ jobs:
       run: dotnet build Shopzy.sln --no-restore --configuration Release
 
     - name: Run Tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Shopzy.sln --no-build --verbosity normal
