@@ -1,0 +1,80 @@
+﻿@page
+@model ShopzyWeb.Pages.Admin.Orders.IndexModel
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["error"]
+    </div>
+}
+
+@functions {
+    string StatusClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "badge bg-warning text-dark",
+            "Shipped" => "badge bg-info",
+            "Delivered" => "badge bg-success",
+            "Cancelled" => "badge bg-danger",
+            _ => "badge bg-secondary"
+        };
+    }
+}
+
+<h2>Admin – Orders</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Order Id</th>
+            <th>Name</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th style="width:180px;">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var o in Model.Orders)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.Name</td>
+                <td>₹ @o.OrderTotal</td>
+
+                <td>
+                    <span class="@StatusClass(o.Status.ToString())">
+                        @o.Status
+                    </span>
+                </td>
+
+                <td>@o.OrderDate.ToShortDateString()</td>
+
+                <td class="text-center">
+                    @* ✅ ADMIN CAN UPDATE ONLY IF NOT CANCELLED *@
+                    @if (o.Status.ToString() != "Cancelled")
+                    {
+                        <a asp-page="UpdateStatus"
+                           asp-route-id="@o.Id"
+                           class="btn btn-sm btn-primary">
+                            Update Status
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">—</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,11 @@
+﻿@page
+@model ShopzyWeb.Pages.Account.RegisterModel
+
+<h2>Register</h2>
+
+<form method="post">
+    <input asp-for="User.Name" placeholder="Name" class="form-control mb-2" />
+    <input asp-for="User.Email" placeholder="Email" class="form-control mb-2" />
+    <input asp-for="User.Password" type="password" placeholder="Password" class="form-control mb-2" />
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>

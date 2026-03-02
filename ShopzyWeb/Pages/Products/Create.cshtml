@@ -1,0 +1,53 @@
+﻿@page
+@model ShopzyWeb.Pages.Products.CreateModel
+
+<h2 class="text-primary">Create Product</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label class="form-label">Product Image</label>
+        <input type="file" asp-for="ImageFile" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Title</label>
+        <input asp-for="Product.Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Description</label>
+        <textarea asp-for="Product.Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>ISBN</label>
+        <input asp-for="Product.ISBN" class="form-control" />
+    </div>
+
+   
+
+    <div class="mb-3">
+        <label>Price</label>
+        <input asp-for="Product.Price" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Category</label>
+        <select asp-for="Product.CategoryId"
+                asp-items="Model.CategoryList"
+                class="form-select">
+            <option value="">-- Select Category --</option>
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.ImageUrl"></label>
+        <input asp-for="Product.ImageUrl" class="form-control"
+               placeholder="/images/products/psychology-of-money.jpg" />
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-page="Index" class="btn btn-secondary">Back</a>
+</form>

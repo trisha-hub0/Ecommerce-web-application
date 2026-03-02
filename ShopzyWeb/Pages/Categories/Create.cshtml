@@ -1,0 +1,25 @@
+﻿@page
+@model ShopzyWeb.Pages.Categories.CreateModel
+
+<h2>Create Category</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Category.Name" class="form-label"></label>
+        <input asp-for="Category.Name" class="form-control" />
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Category.DisplayOrder" class="form-label"></label>
+        <input asp-for="Category.DisplayOrder" class="form-control" />
+        <span asp-validation-for="Category.DisplayOrder" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-page="Index" class="btn btn-secondary">Back</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

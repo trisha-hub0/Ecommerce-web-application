@@ -1,0 +1,45 @@
+﻿@page
+@model ShopzyWeb.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h2 class="mb-4">Available Products</h2>
+
+<div class="row">
+    @foreach (var product in Model.ProductList)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm">
+
+                <img src="@product.ImageUrl"
+                     class="card-img-top"
+                     style="height:220px; object-fit:cover;" />
+
+                <div class="card-body text-center">
+                    <h6 class="fw-bold">@product.Title</h6>
+                    <small class="text-muted">@product.Category.Name</small>
+                    <p class="fw-semibold mt-2">₹ @product.Price</p>
+                </div>
+                <form method="post" asp-page-handler="AddToCart">
+                    <input type="hidden" name="productId" value="@product.Id" />
+                    <button type="submit" class="btn btn-primary w-100">
+                        Add to Cart
+                    </button>
+                </form>
+
+
+
+                <div class="card-footer bg-white border-0">
+                    <a asp-page="/Products/Details"
+                       asp-route-id="@product.Id"
+                       class="btn btn-outline-primary btn-sm w-100">
+                        View Details
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

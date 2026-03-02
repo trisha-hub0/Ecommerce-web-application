@@ -1,0 +1,99 @@
+﻿@page
+@model ShopzyWeb.Pages.Orders.IndexModel
+@using Microsoft.AspNetCore.Http
+@using ShopzyWeb.Models
+
+@functions {
+    string StatusClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "badge bg-warning text-dark",
+            "Shipped" => "badge bg-info",
+            "Delivered" => "badge bg-success",
+            "Cancelled" => "badge bg-danger",
+            _ => "badge bg-secondary"
+        };
+    }
+}
+
+<h2 class="mb-4">My Orders</h2>
+
+@if (!Model.Orders.Any())
+{
+    <div class="alert alert-info">No orders yet.</div>
+}
+else
+{
+    <div class="accordion" id="ordersAccordion">
+        @foreach (var order in Model.Orders)
+        {
+            <div class="accordion-item mb-2">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#order-@order.Id">
+                        <strong>Order #@order.Id</strong>
+                        &nbsp; | @order.OrderDate.ToString("dd MMM yyyy")
+                        &nbsp; | Status:
+                        <span class="@StatusClass(order.Status.ToString())">
+                            @order.Status
+                        </span>
+                        &nbsp; | Total: ₹ @order.OrderTotal
+                    </button>
+                </h2>
+
+                <div id="order-@order.Id" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+
+                        <!-- ✅ CANCEL BUTTON (USER ONLY + PENDING ONLY) -->
+                        @if (
+                                        HttpContext.Session.GetInt32("UserId") != null &&
+                                        HttpContext.Session.GetString("IsAdmin") != "true" &&
+                                        order.Status == OrderStatus.Pending
+                                        )
+                        {
+                            <form method="post"
+                                  asp-page-handler="Cancel"
+                                  class="mb-3">
+
+                                <!-- 🔴 IMPORTANT: Explicit Order ID -->
+                                <input type="hidden" name="id" value="@order.Id" />
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Are you sure you want to cancel this order?');">
+                                    Cancel Order
+                                </button>
+                            </form>
+                        }
+
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in order.OrderDetails)
+                                {
+                                    <tr>
+                                        <td>@item.ProductTitle</td>
+                                        <td>@item.Count</td>
+                                        <td>₹ @item.Price</td>
+                                        <td>₹ @(item.Price* item.Count)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

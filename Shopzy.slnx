@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ShopzyWeb.Tests/ShopzyWeb.Tests.csproj" Id="d7bc396d-0f10-484e-853c-165281024c9c" />
+  <Project Path="ShopzyWeb/ShopzyWeb.csproj" />
+</Solution>

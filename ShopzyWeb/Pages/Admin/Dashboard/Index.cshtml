@@ -1,0 +1,77 @@
+﻿@page
+@model ShopzyWeb.Pages.Admin.Dashboard.IndexModel
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-bg-primary mb-3">
+            <div class="card-body">
+                <h5>Total Orders</h5>
+                <h2>@Model.TotalOrders</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-bg-warning mb-3">
+            <div class="card-body">
+                <h5>Pending</h5>
+                <h2>@Model.PendingOrders</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-bg-info mb-3">
+            <div class="card-body">
+                <h5>Shipped</h5>
+                <h2>@Model.ShippedOrders</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-bg-success mb-3">
+            <div class="card-body">
+                <h5>Delivered</h5>
+                <h2>@Model.DeliveredOrders</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Total Revenue</h5>
+        <h3>₹ @Model.TotalRevenue</h3>
+    </div>
+</div>
+
+<h4>Recent Orders</h4>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Order Id</th>
+            <th>Name</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model.RecentOrders)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.Name</td>
+                <td>₹ @o.OrderTotal</td>
+                <td>@o.Status</td>
+                <td>@o.OrderDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

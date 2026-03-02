@@ -1,0 +1,61 @@
+﻿@page
+@model ShopzyWeb.Pages.Categories.IndexModel
+@using Microsoft.AspNetCore.Http
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Categories</h2>
+
+    <!-- ADD NEW CATEGORY → ADMIN ONLY -->
+    @if (HttpContext.Session.GetString("IsAdmin") == "true")
+    {
+        <a asp-page="Create" class="btn btn-primary">
+            + Add New Category
+        </a>
+    }
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Display Order</th>
+            <th style="width:180px">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var obj in Model.CategoryList)
+        {
+            <tr>
+                <td>@obj.Name</td>
+                <td>@obj.DisplayOrder</td>
+
+                <!-- ✅ SINGLE ACTIONS COLUMN -->
+                <td class="text-center">
+                    @if (HttpContext.Session.GetString("IsAdmin") == "true")
+                    {
+                        <a asp-page="Edit"
+                           asp-route-id="@obj.Id"
+                           class="btn btn-sm btn-warning">
+                            Edit
+                        </a>
+
+                        <a asp-page="Delete"
+                           asp-route-id="@obj.Id"
+                           class="btn btn-sm btn-danger ms-1">
+                            Delete
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-page="/Products/Index"
+                           asp-route-categoryId="@obj.Id"
+                           class="btn btn-sm btn-primary">
+                            View Products
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

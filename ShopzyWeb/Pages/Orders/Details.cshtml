@@ -1,0 +1,38 @@
+﻿@page
+@model ShopzyWeb.Pages.Admin.Orders.DetailsModel
+
+<h2 class="mb-4">Order Details</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <p><strong>Order #:</strong> @Model.OrderHeader.Id</p>
+        <p><strong>Name:</strong> @Model.OrderHeader.Name</p>
+        <p><strong>Phone:</strong> @Model.OrderHeader.PhoneNumber</p>
+        <p><strong>Date:</strong> @Model.OrderHeader.OrderDate.ToString("dd MMM yyyy")</p>
+        <p><strong>Total:</strong> ₹ @Model.OrderHeader.OrderTotal</p>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Product</th>
+            <th class="text-center">Qty</th>
+            <th class="text-end">Price</th>
+            <th class="text-end">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderHeader.OrderDetails)
+        {
+            <tr>
+                <td>@item.ProductTitle</td>
+                <td class="text-center">@item.Count</td>
+                <td class="text-end">₹ @item.Price</td>
+                <td class="text-end">₹ @(item.Price* item.Count)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="Index" class="btn btn-secondary mt-3">Back to Orders</a>

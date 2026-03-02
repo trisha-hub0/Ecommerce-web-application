@@ -1,0 +1,35 @@
+﻿@page
+@model ShopzyWeb.Pages.Cart.CheckoutModel
+
+<h2 class="mb-4">Checkout</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input asp-for="OrderHeader.Name" class="form-control" required />
+        <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input asp-for="OrderHeader.PhoneNumber" class="form-control" required />
+        <span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Address</label>
+        <textarea asp-for="OrderHeader.Address"
+                  class="form-control"
+                  rows="3"
+                  required></textarea>
+        <span asp-validation-for="OrderHeader.Address" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg">
+        Place Order
+    </button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

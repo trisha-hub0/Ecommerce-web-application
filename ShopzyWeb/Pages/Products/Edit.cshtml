@@ -1,0 +1,47 @@
+﻿@page
+@model ShopzyWeb.Pages.Products.EditModel
+
+<h2>Edit Product</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Product.Id" />
+    <input type="hidden" asp-for="Product.ImageUrl" />
+
+    <div class="mb-3">
+        <label asp-for="Product.Title"></label>
+        <input asp-for="Product.Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.ISBN"></label>
+        <input asp-for="Product.ISBN" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.Price"></label>
+        <input asp-for="Product.Price" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Category</label>
+        <select asp-for="Product.CategoryId"
+                asp-items="Model.CategoryList"
+                class="form-select">
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Current Image</label><br />
+        <img src="@Model.Product.ImageUrl"
+             width="150"
+             class="border p-1" />
+    </div>
+
+    <div class="mb-3">
+        <label>New Image</label>
+        <input type="file" name="file" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

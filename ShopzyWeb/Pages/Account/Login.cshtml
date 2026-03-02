@@ -1,0 +1,15 @@
+﻿@page
+@model ShopzyWeb.Pages.Account.LoginModel
+
+<h2>Login</h2>
+
+<form method="post">
+    <input asp-for="Email" placeholder="Email" class="form-control mb-2" />
+    <input asp-for="Password" type="password" placeholder="Password" class="form-control mb-2" />
+    <button type="submit" class="btn btn-success">Login</button>
+
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <p class="text-danger">@Model.Error</p>
+    }
+</form>

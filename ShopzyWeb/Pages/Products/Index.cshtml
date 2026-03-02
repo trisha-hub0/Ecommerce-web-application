@@ -1,0 +1,103 @@
+﻿@page
+@model ShopzyWeb.Pages.Products.IndexModel
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Products</h2>
+        </div>
+
+        <!-- ✅ ADD NEW PRODUCT → ADMIN ONLY -->
+        @if (HttpContext.Session.GetString("IsAdmin") == "true")
+
+        {
+            <div class="col-6 text-end">
+                <a asp-page="Create" class="btn btn-success">
+                    + Add New Product
+                </a>
+            </div>
+        }
+    </div>
+
+    <br />
+
+    @if (!Model.ProductList.Any())
+    {
+        <div class="alert alert-info">
+            No products available.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>ISBN</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th style="width:260px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var obj in Model.ProductList)
+                {
+                    <tr>
+                        <td>
+                            <img src="@obj.ImageUrl"
+                                 style="width:70px;height:90px;object-fit:cover;"
+                                 class="rounded" />
+                        </td>
+
+                        <td>@obj.Title</td>
+                        <td>@obj.ISBN</td>
+                        <td>₹ @obj.Price</td>
+                        <td>@obj.CategoryId</td>
+
+                        <td class="text-center">
+                            <!-- ✅ DETAILS → EVERYONE -->
+                            <a asp-page="Details"
+                               asp-route-id="@obj.Id"
+                               class="btn btn-info btn-sm">
+                                Details
+                            </a>
+
+                            <!-- ✅ EDIT & DELETE → ADMIN ONLY -->
+                            @if (HttpContext.Session.GetString("IsAdmin") == "true")
+
+                            {
+                                <a asp-page="Edit"
+                                   asp-route-id="@obj.Id"
+                                   class="btn btn-warning btn-sm ms-1">
+                                    Edit
+                                </a>
+
+                                <a asp-page="Delete"
+                                   asp-route-id="@obj.Id"
+                                   class="btn btn-danger btn-sm ms-1">
+                                    Delete
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
