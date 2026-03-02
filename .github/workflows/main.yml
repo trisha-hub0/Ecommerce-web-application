@@ -20,10 +20,10 @@ jobs:
         dotnet-version: '10.0.x'
 
     - name: Restore Dependencies
-      run: dotnet restore
+      run: dotnet restore Shopzy.sln
 
     - name: Build Project
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build Shopzy.sln --no-restore --configuration Release
 
     - name: Run Tests
       run: dotnet test --no-build --verbosity normal
