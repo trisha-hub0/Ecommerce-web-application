@@ -7,23 +7,37 @@ on:
     branches: [ "master" ]
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '10.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
 
-    - name: Restore Dependencies
-      run: dotnet restore Shopzy.sln
+      - name: Restore Dependencies
+        run: dotnet restore Shopzy.sln
 
-    - name: Build Project
-      run: dotnet build Shopzy.sln --no-restore --configuration Release
+      - name: Build Project
+        run: dotnet build Shopzy.sln --no-restore --configuration Release
 
-    - name: Run Tests
-      run: dotnet test ShopzyWeb.Tests/ShopzyWeb.Tests.csproj --verbosity normal
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Run Tests
+        run: dotnet test ShopzyWeb.Tests/ShopzyWeb.Tests.csproj --configuration Release --verbosity normal
