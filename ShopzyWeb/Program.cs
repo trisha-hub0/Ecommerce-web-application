@@ -59,7 +59,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
+// CI Demo change
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
