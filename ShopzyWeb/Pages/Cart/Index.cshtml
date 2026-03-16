@@ -29,6 +29,7 @@ else
                     </td>
 
                     <td class="text-center">
+
                         <form method="post" asp-page-handler="Minus" class="d-inline">
                             <input type="hidden" name="id" value="@item.ProductId" />
                             <button type="submit" class="btn btn-sm btn-outline-secondary">−</button>
@@ -40,15 +41,21 @@ else
                             <input type="hidden" name="id" value="@item.ProductId" />
                             <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
                         </form>
+
                     </td>
 
                     <td class="text-end">₹ @item.Price</td>
-                    <td class="text-end">₹ @(item.Price* item.Count)</td>
+
+                    <td class="text-end">
+                        ₹ @(item.Price* item.Count)
+                    </td>
 
                     <td class="text-end">
                         <form method="post" asp-page-handler="Remove">
                             <input type="hidden" name="id" value="@item.ProductId" />
-                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Remove
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -57,11 +64,9 @@ else
     </table>
 
     <div class="text-end fw-bold fs-5 mt-3">
-        Grand Total:
-        ₹ @Model.Cart.Sum(c => c.Price * c.Count)
+        Grand Total: ₹ @Model.Cart.Sum(c => c.Price * c.Count)
     </div>
 
-    <!-- ✅ CORRECT CHECKOUT BUTTON -->
     <div class="text-end mt-4">
         <a asp-page="Checkout" class="btn btn-success btn-lg">
             Proceed to Checkout

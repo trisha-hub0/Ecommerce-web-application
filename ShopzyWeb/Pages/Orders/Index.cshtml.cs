@@ -20,16 +20,15 @@ namespace ShopzyWeb.Pages.Orders
 
         public List<OrderHeader> Orders { get; set; } = new();
 
-        // ✅ LOAD USER ORDERS ONLY
         public IActionResult OnGet()
         {
-            // ❌ Block admin from user orders page
             if (HttpContext.Session.GetString("IsAdmin") == "true")
             {
                 return RedirectToPage("/Index");
             }
 
             var userId = HttpContext.Session.GetInt32("UserId");
+
             if (userId == null)
             {
                 return RedirectToPage("/Account/Login");
@@ -44,22 +43,20 @@ namespace ShopzyWeb.Pages.Orders
             return Page();
         }
 
-        // ✅ USER ONLY — CANCEL ONE ORDER
         public IActionResult OnPostCancel(int id)
         {
-            // ❌ Block admin HARD
             if (HttpContext.Session.GetString("IsAdmin") == "true")
             {
                 return RedirectToPage("/Index");
             }
 
             var userId = HttpContext.Session.GetInt32("UserId");
+
             if (userId == null)
             {
                 return RedirectToPage("/Account/Login");
             }
 
-            // 🔒 Fetch ONLY the clicked order
             var orderFromDb = _db.OrderHeaders
                 .FirstOrDefault(o =>
                     o.Id == id &&
@@ -72,7 +69,6 @@ namespace ShopzyWeb.Pages.Orders
                 return RedirectToPage();
             }
 
-            // ✅ Cancel ONLY this order
             orderFromDb.Status = OrderStatus.Cancelled;
             _db.SaveChanges();
 

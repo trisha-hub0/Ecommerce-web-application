@@ -10,7 +10,6 @@ namespace ShopzyWeb.Pages.Cart
     {
         private readonly ApplicationDbContext _db;
 
-        // ✅ Constructor name MATCHES class name
         public CheckoutModel(ApplicationDbContext db)
         {
             _db = db;
@@ -40,31 +39,18 @@ namespace ShopzyWeb.Pages.Cart
                 return RedirectToPage("Index");
             }
 
-            OrderHeader.UserId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            OrderHeader.OrderDate = DateTime.Now;
-            OrderHeader.OrderTotal = cart.Sum(c => c.Price * c.Count);
-            OrderHeader.Status = OrderStatus.Pending;
+            var userId = HttpContext.Session.GetInt32("UserId");
 
-            _db.OrderHeaders.Add(OrderHeader);
-            _db.SaveChanges();
-
-            foreach (var item in cart)
+            if (userId == null)
             {
-                _db.OrderDetails.Add(new OrderDetail
-                {
-                    OrderHeaderId = OrderHeader.Id,
-                    ProductId = item.ProductId,
-                    ProductTitle = item.Title,
-                    Count = item.Count,
-                    Price = item.Price
-                });
+                return RedirectToPage("/Account/Login");
             }
 
-            _db.SaveChanges();
+            // store address + name + phone temporarily
+            HttpContext.Session.Set("CheckoutInfo", OrderHeader);
 
-            HttpContext.Session.Remove("cart");
-
-            return RedirectToPage("Success");
+            // move to payment page
+            return RedirectToPage("/payment/payment");
         }
     }
 }

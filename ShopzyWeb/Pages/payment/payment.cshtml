@@ -1,0 +1,16 @@
+﻿@page
+@model PaymentModel
+
+<h2>Checkout Payment</h2>
+
+<form method="post">
+
+    <label>Select Payment Method</label><br>
+
+    <input type="radio" name="PaymentMethod" value="Card" required> Credit/Debit Card <br>
+    <input type="radio" name="PaymentMethod" value="UPI"> UPI <br>
+    <input type="radio" name="PaymentMethod" value="COD"> Cash On Delivery <br><br>
+
+    <button type="submit" class="btn btn-primary">Pay Now</button>
+
+</form>
